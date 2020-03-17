@@ -6,15 +6,27 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     score: 0,
+    distanceMaxPoint: 500, 
     listPhotos: ["photo1", "photo2", "photo3"],
     nbPhotos: 3,
-    lat: 0,
-    lng: 0
+    LatLngPoint: {},
+    series: []
   },
   mutations: {
     pointed(state, coord) {
-      state.lat = coord[0];
-      state.lng = coord[1];
+      state.LatLngPoint = coord;
+    },
+
+    getSeries(state, data){
+      state.series = data;
+    },
+
+    incrementScore(state, points){
+      state.score += points;
+    },
+
+    resetScore(state){
+      state.score = 0;
     }
   },
   actions: {

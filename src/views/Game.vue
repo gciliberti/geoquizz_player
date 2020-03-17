@@ -2,10 +2,9 @@
   <div class="about">
     <h1>This is a map page</h1>
     <h1>{{this.$store.state.nbPhotos}}</h1>
-    <Map ref="test"/>
+    <Map ref="mapComponent"/>
     <h3>step : {{this.$store.state.listPhotos[this.i]}}</h3>
-    <p>lat : {{this.$store.state.lat}}</p>
-    <p>lng : {{this.$store.state.lng}}</p>
+    <p>score : {{this.$store.state.score}}</p>
     <button v-on:click="next">suivant</button> 
   </div>
 </template>
@@ -19,26 +18,34 @@ export default {
   },
 
   data() {
-  return {
+    return {
       i: 0
     };
   },
 
   methods:{
     next(){
-      if(this.i < this.$store.state.nbPhotos - 1){
+      let pin = this.$store.state.LatLngPoint;
+      if(pin[0] != 0 && pin[1] != 0){
+         //traitement score
+        this.$refs.mapComponent.calculateScore();
+
         //quand suivant, reset map et coordonnées
-        this.$refs.test.resetMarker();
+        this.$refs.mapComponent.resetMarker();
         let coord = [0, 0];
         this.$store.commit('pointed', coord);
         this.i++;
 
-        //traitement score
-
-      } else {
-        alert("jeu fini");
-        this.$router.push('/')
+        if(this.i == this.$store.state.nbPhotos){
+          alert("ton score" + this.$store.state.score);
+          this.$store.commit('resetScore');
+          this.$router.push('/')
+        }
       }
+    },
+
+    convertRad(angle){
+        return (Math.PI * angle)/180;
     }
   }
 }

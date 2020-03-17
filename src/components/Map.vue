@@ -33,6 +33,19 @@ export default {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(this.map);
         },
+
+        calculateScore(){
+            let LatLng = {lat: 48.680783, lng: 6.166147};
+            let distance = this.map.distance(LatLng, this.$store.state.LatLngPoint);
+            let distanceMaxPoint = this.$store.state.distanceMaxPoint;
+            if (distance <= distanceMaxPoint) {
+                this.$store.commit('incrementScore', 5);
+            } else if (distance > distanceMaxPoint && distance <= distanceMaxPoint * 2) {
+                this.$store.commit('incrementScore', 3);
+            } else if (distance > distanceMaxPoint * 2 && distance <= distanceMaxPoint * 3) {
+                this.$store.commit('incrementScore', 1);
+            }            
+        }
       
     },
 

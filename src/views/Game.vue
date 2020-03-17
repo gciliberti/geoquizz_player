@@ -26,14 +26,18 @@ export default {
 
   methods:{
     next(){
-      //this.$refs.test.resetMarker();
       if(this.i < this.$store.state.nbPhotos - 1){
+        //quand suivant, reset map et coordonnées
+        this.$refs.test.resetMarker();
+        let coord = [0, 0];
+        this.$store.commit('pointed', coord);
         this.i++;
 
         //traitement score
 
       } else {
-        alert("jeu fini")
+        alert("jeu fini");
+        this.$router.push('/')
       }
     }
   }

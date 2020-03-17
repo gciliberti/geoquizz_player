@@ -1,18 +1,29 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <h1>GeoQuizz</h1>
+    <Scores/>
+
+    <div>
+      <input type="text" id="name" name="name" placeholder="pseudo" maxlength="14"> 
+      <button v-on:click="startGame">Jouer</button>
+    </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import Scores from '@/components/Scores.vue'
 
 export default {
   name: 'Home',
   components: {
-    HelloWorld
+    Scores
+  },
+
+  methods:{
+    startGame(){
+      this.$router.push('Game')
+    }
   }
 }
 </script>

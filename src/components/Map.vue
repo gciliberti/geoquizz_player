@@ -87,9 +87,11 @@ export default {
 
 <style scoped>
     #map {
-         height: 300px;
-         width: 600px; 
-         
-         }
+        height: 300px;        
+    }
+
+    .leaflet-container {
+  cursor: crosshair;
+}
 
 </style>

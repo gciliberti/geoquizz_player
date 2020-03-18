@@ -4,18 +4,29 @@
     <Scores/>
     <div>
 
-    <select v-model="selected">
-      <option value="" selected disabled hidden>-- Choisissez une série --</option>
-      <option v-for="serie in this.$store.state.series.series" v-bind:value="serie.id"> 
-        {{ serie.ville }}
-      </option>
-    </select>
+      <div class="container actions">
+        <div class="row justify-content-center">
+          <div class="col">
+            <select class="form-control select" v-model="selected">
+              <option value="" selected disabled hidden> Choisissez une série </option>
+              <option v-for="serie in this.$store.state.series.series" v-bind:value="serie.id"> 
+                {{ serie.ville }}
+              </option>
+            </select>
+          </div>
 
+          <div class="col d-flex">
+            <input class="form-control input" v-model="pseudo" type="text" placeholder="pseudo" maxlength="14"> 
+            <button class="btn btn-primary" v-on:click="startGame">Jouer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<!--
     <span>Sélectionné : {{ selected }}</span><br>
     <span>Pseudo : {{ pseudo }}</span><br>
-
-      <input v-model="pseudo" type="text" placeholder="pseudo" maxlength="14"> 
-      <button v-on:click="startGame">Jouer</button>
+-->
     </div>
   </div>
 </template>
@@ -56,3 +67,17 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .actions div{
+    margin: 20px 0;
+  }
+
+  .actions{
+    width: 50%;
+  }
+
+  .select, .input{
+    width: inherit;
+  }
+</style>

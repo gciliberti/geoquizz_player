@@ -1,19 +1,30 @@
 <template>
   <div class="about">
-    <h1>This is a map page</h1>
+    <h1>GeoQuizz</h1>
     <p>{{this.nb}}/{{this.$store.state.nbPhotos}}</p>
 
-    <div class="main">
-      <Map ref="mapComponent"/>
-      <img width="300" :src="this.$store.state.listPhotos[this.i].url"/>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <Map ref="mapComponent"/>
+          <div class="infos card d-flex justify-content-around">
+            <p>score : {{this.$store.state.score}}</p>
+            <p>timer : {{this.timer}}</p>
+          </div>
+        </div>
+
+        <div class="col">
+          <img height="300" :src="this.$store.state.listPhotos[this.i].url"/>
+        </div>
+      </div>
     </div>
 
-    <div class="infos">
-      <p>score : {{this.$store.state.score}}</p>
-      <p>timer : {{this.timer}}</p>
-    </div>
+    <!--
+      <div class="progress">
+        <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>-->
 
-    <button v-on:click="next">suivant</button> 
+    <button v-on:click="next" class="btn btn-outline-primary">suivant</button> 
   </div>
 </template>
 
@@ -97,8 +108,17 @@ export default {
 </script>
 
 <style scoped>
-  .main{
-    display: flex;
-    justify-content: space-around;
+  .infos{
+    margin-top: 20px;
+    flex-direction: row;
+  }
+
+  .infos>p{
+    margin-top: 10px;
+  }
+
+  button{
+    margin-top: 20px;
+    width: 200px;
   }
 </style>

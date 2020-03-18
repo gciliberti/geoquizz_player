@@ -34,17 +34,39 @@ export default {
             }).addTo(this.map);
         },
 
-        calculateScore(){
-            let LatLng = {lat: 48.680783, lng: 6.166147};
-            let distance = this.map.distance(LatLng, this.$store.state.LatLngPoint);
+        calculateScore(i, time){
+            //renvoie le multiplicateur
+            let multiplier = this.getMultiplier(time);
+
+            //récupère la position de la photo
+            let position = this.$store.state.listPhotos[i].position;
+            let LatLng = position.split(',');
+
+            //calcul de la distance des deux positions (photo + marker)
+            //let distance = this.map.distance(LatLng, this.$store.state.LatLngPoint);
+            let distance = 400;
+
+            //calcul du score
             let distanceMaxPoint = this.$store.state.distanceMaxPoint;
             if (distance <= distanceMaxPoint) {
-                this.$store.commit('incrementScore', 5);
+                this.$store.commit('incrementScore', 5 * multiplier);
             } else if (distance > distanceMaxPoint && distance <= distanceMaxPoint * 2) {
-                this.$store.commit('incrementScore', 3);
+                this.$store.commit('incrementScore', 3 * multiplier);
             } else if (distance > distanceMaxPoint * 2 && distance <= distanceMaxPoint * 3) {
-                this.$store.commit('incrementScore', 1);
+                this.$store.commit('incrementScore', 1 * multiplier);
             }            
+        },
+
+        getMultiplier(time){
+            if(time <= 5){
+                return 4;
+            } else if (time <= 10){
+                return 2;
+            } else if (time <= 20){
+                return 1;
+            } else {
+                return 0;
+            }
         }
       
     },

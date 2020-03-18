@@ -7,11 +7,14 @@ export default new Vuex.Store({
   state: {
     score: 0,
     distanceMaxPoint: 500, 
-    listPhotos: ["photo1", "photo2", "photo3"],
-    nbPhotos: 3,
+    listPhotos: [],
+    nbPhotos: 0,
     LatLngPoint: {},
-    series: []
+    series: [],
+    token: "",
+    partieId: null
   },
+
   mutations: {
     pointed(state, coord) {
       state.LatLngPoint = coord;
@@ -27,6 +30,17 @@ export default new Vuex.Store({
 
     resetScore(state){
       state.score = 0;
+    },
+
+    initGame(state, data){
+      console.log(data)
+      state.nbPhotos = data.nb_photos;
+      state.token = data.token;
+      state.partieId = data.id;
+      data.photos.forEach(element => 
+        state.listPhotos.push(element)
+      );
+      console.log(state.listPhotos)
     }
   },
   actions: {

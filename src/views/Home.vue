@@ -41,6 +41,9 @@ export default {
   methods:{
     startGame(){
       if(this.selected && this.pseudo){
+      axios.post('index.php/partie',{pseudo: this.pseudo ,serie: this.selected}).then((response) => {
+        this.$store.commit('initGame', response.data)
+      })
       this.$router.push('Game')
       }
     }

@@ -1,27 +1,31 @@
 <template>
   <div class="home">
-  <h1>GeoQuizz</h1>
-    <Scores/>
-    <div>
-
-      <div class="container actions">
-        <div class="row justify-content-center">
-          <div class="col">
-            <select class="form-control select" v-model="selected">
-              <option value="" selected disabled hidden> Choisissez une série </option>
-              <option v-for="serie in this.$store.state.series.series" v-bind:value="serie.id"> 
-                {{ serie.ville }}
-              </option>
-            </select>
-          </div>
-
-          <div class="col d-flex">
-            <input class="form-control input" v-model="pseudo" type="text" placeholder="pseudo" maxlength="14"> 
-            <button class="btn btn-primary" v-on:click="startGame">Jouer</button>
-          </div>
-        </div>
+    <Collapse/>
+    <h1>GeoQuizz</h1>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-12">
+        <Scores/>
       </div>
     </div>
+  
+    <div class="row justify-content-center">
+      <div class="col-md-4 col-12">
+        <select class="form-control select" v-model="selected">
+          <option value="" selected disabled hidden> Choisissez une série </option>
+          <option v-for="serie in this.$store.state.series.series" v-bind:value="serie.id"> 
+            {{ serie.ville }}
+          </option>
+        </select>
+      </div>
+
+      <div style="margin-bottom: 30px;" class="col-md-4 col-12 d-flex">
+        <input class="form-control input col-8" v-model="pseudo" type="text" placeholder="pseudo" maxlength="14"> 
+        <button class="btn btn-primary col-4" v-on:click="startGame">Jouer</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!--
     <span>Sélectionné : {{ selected }}</span><br>
@@ -34,11 +38,13 @@
 <script>
 // @ is an alias to /src
 import Scores from '@/components/Scores.vue'
+import Collapse from '@/components/Collapse.vue'
 
 export default {
   name: 'Home',
   components: {
-    Scores
+    Scores,
+    Collapse
   },
 
     data() {
@@ -69,15 +75,8 @@ export default {
 </script>
 
 <style scoped>
-  .actions div{
-    margin: 20px 0;
-  }
-
-  .actions{
-    width: 50%;
-  }
-
-  .select, .input{
+  .select, .input, button{
     width: inherit;
+    margin-top: 30px;
   }
 </style>

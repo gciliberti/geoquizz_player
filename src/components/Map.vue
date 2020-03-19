@@ -10,8 +10,6 @@ export default {
 
   data() {
             return {
-                longitude:  6.18,
-                latitude: 48.69,
                 map: {}
             };
         },
@@ -43,8 +41,7 @@ export default {
             let LatLng = position.split(',');
 
             //calcul de la distance des deux positions (photo + marker)
-            //let distance = this.map.distance(LatLng, this.$store.state.LatLngPoint);
-            let distance = 400;
+            let distance = this.map.distance(LatLng, this.$store.state.LatLngPoint);
 
             //calcul du score
             let distanceMaxPoint = this.$store.state.distanceMaxPoint;
@@ -72,7 +69,7 @@ export default {
     },
 
   mounted(){
-      this.map = L.map('map', {center: [this.latitude, this.longitude],zoom: 13});
+      this.map = L.map('map', {center: [this.$store.state.map.lat, this.$store.state.map.lng],zoom: this.$store.state.map.zoom});
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(this.map);

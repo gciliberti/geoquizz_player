@@ -32,7 +32,7 @@ export default {
 <style  scoped>
   .scoresList{
     font-size: .8em;
-    width: 50%;
+    padding: 0;
   }
 
   li:first-child>.score{

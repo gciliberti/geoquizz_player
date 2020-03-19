@@ -1,7 +1,7 @@
 <template>
   <div class="about">
-    <h1>GeoQuizz</h1>
-    <p>{{this.nb}}/{{this.$store.state.nbPhotos}}</p>
+    <h1>GeoQuizz : {{this.$store.state.map.ville}}</h1>
+    <p>{{this.$store.state.nb}}/{{this.$store.state.nbPhotos}}</p>
 
     <div class="container">
       <div class="row">
@@ -14,7 +14,7 @@
         </div>
 
         <div class="col">
-          <img height="300" :src="this.$store.state.listPhotos[this.i].url"/>
+          <img height="300" :src="this.$store.state.listPhotos[this.$store.state.i].url"/>
         </div>
       </div>
     </div>
@@ -33,7 +33,8 @@ import Map from '@/components/Map.vue'
 
 export default {
   components: {
-    Map
+    Map,
+    
   },
 
   data() {
@@ -41,7 +42,8 @@ export default {
       i: 0,
       nb: 1,
       timer: 0,
-      break: false
+      break: false,
+      stop: false
     };
   },
 
@@ -50,25 +52,28 @@ export default {
       let pin = this.$store.state.LatLngPoint;
       if(pin[0] != 0 && pin[1] != 0){
          //traitement score
-        this.$refs.mapComponent.calculateScore(this.i, this.timer);
+        this.$refs.mapComponent.calculateScore(this.$store.state.i, this.timer);
         this.break = true;
 
         //quand suivant, reset map et coordonnées
         this.$refs.mapComponent.resetMarker();
         let coord = [0, 0];
         this.$store.commit('pointed', coord);
-        this.i++;
-        this.nb++;
+        this.$store.commit('incr');
 
-        if(this.i == this.$store.state.nbPhotos){
-          this.endGame();
+        if(this.$store.state.i == this.$store.state.nbPhotos){
+          this.stop = true;
+          $( "#modalScore" ).modal();
         }
       }
     },
 
     runTimer(){
+      console.log("chrono")
       if (this.break === true) {
         this.resetTimer();
+      } else if (this.stop === true){
+        return;
       } else {
       setTimeout(function () { this.incr() }.bind(this), 1000);
       }
@@ -83,17 +88,6 @@ export default {
     incr(){
       this.timer += 1;
       this.runTimer();
-    },
-
-    endGame(){
-      alert("ton score" + this.$store.state.score);
-      this.$router.push('/');
-      axios.patch('index.php/partie/' + this.$store.state.token, 
-      {id: this.$store.state.partieId ,score: this.$store.state.score})
-      .then((response) => {
-        console.log(response)
-      })
-      this.$store.commit('resetScore');
     },
 
     convertRad(angle){

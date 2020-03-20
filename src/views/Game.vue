@@ -9,7 +9,7 @@
           <Map ref="mapComponent"/>
           <div class="infos card d-flex justify-content-around">
             <p>score : {{this.$store.state.score}}</p>
-            <p>timer : {{this.timer}}</p>
+            <p id="timer" class="">temps : {{this.timer}}</p>
           </div>
         </div>
 
@@ -80,6 +80,7 @@ export default {
     },
 
     resetTimer(){
+       $( "#timer" ).removeClass("red");
       this.timer = 0;
       this.break = false;
       this.runTimer();
@@ -87,6 +88,9 @@ export default {
 
     incr(){
       this.timer += 1;
+      if(this.timer > 20){
+        $( "#timer" ).addClass("red");
+      }
       this.runTimer();
     },
 
@@ -114,5 +118,9 @@ export default {
   button{
     margin-top: 20px;
     width: 200px;
+  }
+
+  .red{
+    color: red;
   }
 </style>

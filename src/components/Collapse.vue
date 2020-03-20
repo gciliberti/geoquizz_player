@@ -1,11 +1,12 @@
 <template>
-    <div class="info">
+    <div>
         <i class="icon fas fa-info-circle" type="button" v-on:click="show"></i>
        
         <div>
             <div class="informations hid card card-body">
-                <p>- Le jeu sauvegarde automatiquement quand vous fermez la fenêtre ou ce joue une partie</p>
-                <p>- Il faut cliquer sur le boutton de la modale et non en dehors</p>
+                <p>• Le jeu sauvegarde automatiquement quand vous fermez la fenêtre où se joue une partie</p>
+                <p>• Il faut cliquer sur le boutton de la modale et non en dehors</p>
+                <p>• Aucun point n'est marqué après 20 secondes</p>
             </div>
         </div>
     </div>
@@ -31,18 +32,14 @@ export default {
    .icon{
     display: flex;
     margin-bottom: 10px;
+    margin-left: 20px;
+    cursor: pointer;
    }
 
    .informations{
        font-size: .6rem;
        padding: 10px;
+       text-align: left;
    }
 
-   .info{
-       max-width: 10%;
-       position: absolute;
-       top: 1rem;
-       left: 2rem;
-       z-index: 2;
-   }
 </style>

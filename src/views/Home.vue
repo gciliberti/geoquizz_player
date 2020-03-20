@@ -1,11 +1,14 @@
 <template>
   <div class="home">
-    <Collapse/>
+    <div class="infos">
+      <i class="icon fas fa-redo-alt" type="button" v-on:click="forceRerender"></i>
+      <Collapse/>        
+    </div>
     <h1>GeoQuizz</h1>
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-md-8 col-12">
-        <Scores/>
+        <Scores v-if="renderComponent" ref="scoresComponent"/>
       </div>
     </div>
   
@@ -50,7 +53,8 @@ export default {
     data() {
       return {
         selected: "",
-        pseudo: ""
+        pseudo: "",
+        renderComponent: true
       };
     },
 
@@ -58,23 +62,53 @@ export default {
   methods:{
     startGame(){
       if(this.selected && this.pseudo){
-      axios.post('index.php/partie',{pseudo: this.pseudo ,serie: this.selected}).then((response) => {
-        this.$store.commit('initGame', response.data)
-      })
-      this.$router.push('Game')
+         axios.post('index.php/partie',{pseudo: this.pseudo ,serie: this.selected}).then((response) => {
+            this.$store.commit('initGame', response.data)
+        })
+        //this.postGame(this.pseudo, this.selected);
+        this.$router.push('Game')
       }
-    }
+    },
+
+    forceRerender() {
+        // Remove my-component from the DOM
+        this.renderComponent = false;
+        console.log("force")
+        this.$nextTick().then(() => {
+                  console.log("tick")
+    // Add the component back in
+    this.renderComponent = true;
+  });
+      }
   },
 
   mounted(){
+    //this.getSeries();
+          console.log("load avant")
+    setTimeout(() => {
+           this.forceRerender();
+       }, 300);
+    this.$refs.scoresComponent.loadScore();
     axios.get('index.php/series').then((response) => {
-      this.$store.commit('getSeries', response.data)
-    })
+            this.$store.commit('getSeries', response.data)
+        })
   }
 }
 </script>
 
 <style scoped>
+.icon{
+  cursor: pointer;
+}
+ .infos{
+   display: flex;
+       max-width: 20%;
+       position: absolute;
+       top: 1rem;
+       left: 1rem;
+       z-index: 2;
+   }
+
   .select, .input, button{
     width: inherit;
     margin-top: 30px;

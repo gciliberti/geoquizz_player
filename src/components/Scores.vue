@@ -20,10 +20,17 @@ export default {
     };
   },
 
+  methods:{
+    loadScore(){
+      console.log("load")
+      axios.get('index.php/leaderboard').then((response) => {
+        this.scores = response.data;
+      })
+    }
+  },
+
   mounted(){
-    axios.get('index.php/leaderboard').then((response) => {
-      this.scores = response.data;
-    })
+    this.loadScore();
   }
 
 }

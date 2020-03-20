@@ -39,6 +39,7 @@ export default new Vuex.Store({
     },
 
     initGame(state, data){
+      console.log(data);
       state.nbPhotos = data.nb_photos;
       state.token = data.token;
       state.partieId = data.id;

@@ -15,7 +15,8 @@
           <p>score : {{this.$store.state.score}}</p>
           <p id="timer" class="">temps : {{this.timer}}</p>
         </div>
-        <canvas id="doughnutChart"></canvas>
+
+        <Donut :timer="timer"></Donut>
 
 
         <button v-on:click="next" class="btn btn-primary">suivant</button> 
@@ -36,11 +37,13 @@
 
 <script>
 import Map from '@/components/Map.vue'
+import Donut from '@/components/Donut.vue'
+
 
 export default {
   components: {
     Map,
-    
+    Donut  
   },
 
   data() {
@@ -76,7 +79,6 @@ export default {
     },
 
     runTimer(){
-      console.log("chrono")
       if (this.break === true) {
         this.resetTimer();
       } else if (this.stop === true){
@@ -109,23 +111,6 @@ export default {
   mounted(){
     document.documentElement.style.overflow = 'hidden'
     this.runTimer();
-
-    //doughnut
-var ctxD = document.getElementById("doughnutChart").getContext('2d');
-var myLineChart = new Chart(ctxD, {
-type: 'doughnut',
-data: {
-labels: ["Red", "Green", "Yellow", "Grey", "Dark Grey"],
-datasets: [{
-data: [300, 50, 100, 40, 120],
-backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"],
-hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774"]
-}]
-},
-options: {
-responsive: true
-}
-});
   }
 }
 </script>

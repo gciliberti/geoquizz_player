@@ -9,7 +9,7 @@ Vue.config.productionTip = false
 Vue.mixin(utils)
 
 window.axios = axios.create({
-  baseURL: 'http://134.122.67.129/player/api/',
+  baseURL: 'https://apiplayer.tallium.tech/',
 });
 
 new Vue({

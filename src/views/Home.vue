@@ -62,7 +62,7 @@ export default {
   methods:{
     startGame(){
       if(this.selected && this.pseudo){
-         axios.post('index.php/partie',{pseudo: this.pseudo ,serie: this.selected}).then((response) => {
+         axios.post('partie',{pseudo: this.pseudo ,serie: this.selected}).then((response) => {
             this.$store.commit('initGame', response.data)
         })
         //this.postGame(this.pseudo, this.selected);
@@ -83,20 +83,24 @@ export default {
   },
 
   mounted(){
-    //this.getSeries();
-          console.log("load avant")
     setTimeout(() => {
            this.forceRerender();
        }, 300);
+
     this.$refs.scoresComponent.loadScore();
-    axios.get('index.php/series').then((response) => {
+    axios.get('series').then((response) => {
             this.$store.commit('getSeries', response.data)
         })
+    document.documentElement.style.overflow = 'initial'
   }
 }
 </script>
 
 <style scoped>
+    h1{
+    text-align: center;
+    }
+
 .icon{
   cursor: pointer;
 }

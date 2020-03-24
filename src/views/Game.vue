@@ -1,30 +1,36 @@
 <template>
-  <div class="about">
-    <h1>GeoQuizz : {{this.$store.state.map.ville}}</h1>
-    <p>{{this.$store.state.nb}}/{{this.$store.state.nbPhotos}}</p>
-
-    <div class="container">
-      <div class="row">
-        <div class="col">
-          <Map ref="mapComponent"/>
-          <div class="infos card d-flex justify-content-around">
-            <p>score : {{this.$store.state.score}}</p>
-            <p id="timer" class="">temps : {{this.timer}}</p>
-          </div>
-        </div>
-
-        <div class="col">
-          <img height="300" :src="this.$store.state.listPhotos[this.$store.state.i].url"/>
-        </div>
+  <div class="game">
+    <div class="row">
+      <div style="padding: 0;" class="col-md-10 col-sm-9">
+        <Map ref="mapComponent"/>
       </div>
+
+      <div style="padding: 0;" class="aside col-md-2 col-sm-3 d-flex justify-content-between">
+        <div class="title">
+          <h1>GeoQuizz {{this.$store.state.map.ville}}</h1>
+          <p>{{this.$store.state.nb}}/{{this.$store.state.nbPhotos}}</p>
+        </div>
+
+        <div class="infos">
+          <p>score : {{this.$store.state.score}}</p>
+          <p id="timer" class="">temps : {{this.timer}}</p>
+        </div>
+        <canvas id="doughnutChart"></canvas>
+
+
+        <button v-on:click="next" class="btn btn-primary">suivant</button> 
+
+      </div>
+    </div>
+
+    <div class="image">
+      <img height="200" :src="this.$store.state.listPhotos[this.$store.state.i].url"/>
     </div>
 
     <!--
       <div class="progress">
         <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
       </div>-->
-
-    <button v-on:click="next" class="btn btn-outline-primary">suivant</button> 
   </div>
 </template>
 
@@ -57,6 +63,7 @@ export default {
 
         //quand suivant, reset map et coordonnées
         this.$refs.mapComponent.resetMarker();
+        //this.$refs.mapComponent.createControls();
         let coord = [0, 0];
         this.$store.commit('pointed', coord);
         this.$store.commit('incr');
@@ -100,27 +107,67 @@ export default {
   },
 
   mounted(){
+    document.documentElement.style.overflow = 'hidden'
     this.runTimer();
+
+    //doughnut
+var ctxD = document.getElementById("doughnutChart").getContext('2d');
+var myLineChart = new Chart(ctxD, {
+type: 'doughnut',
+data: {
+labels: ["Red", "Green", "Yellow", "Grey", "Dark Grey"],
+datasets: [{
+data: [300, 50, 100, 40, 120],
+backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"],
+hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774"]
+}]
+},
+options: {
+responsive: true
+}
+});
   }
 }
 </script>
 
 <style scoped>
+  .aside{
+    flex-direction: column;
+  }
+
   .infos{
-    margin-top: 20px;
-    flex-direction: row;
+    padding: 10px;
   }
 
-  .infos>p{
-    margin-top: 10px;
+  .title{
+    text-align: center;
   }
 
+  .title h1{
+    font-size: 2em;
+  }
   button{
     margin-top: 20px;
-    width: 200px;
+    width: 100%;
   }
 
   .red{
     color: red;
+  }
+
+  img{
+    transform-origin: bottom left;
+    border-radius: 10px;
+     position: relative;
+    top: -210px;
+    left: 10px;
+    z-index: 999;
+    cursor: pointer;
+    transition-duration: .3s;
+  }
+
+  img:hover{
+    height: 400px;
+    transform: translateY(-200px);
   }
 </style>

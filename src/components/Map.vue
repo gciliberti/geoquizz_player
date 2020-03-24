@@ -27,6 +27,9 @@ export default {
             this.map.eachLayer( (marker) => {
                 this.map.removeLayer(marker);
             });
+            this.map.eachLayer( (control) => {
+                this.map.removeLayer(control);
+            });
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(this.map);
@@ -64,6 +67,17 @@ export default {
             } else {
                 return 0;
             }
+        },
+
+
+        createControls(){
+            let command = L.control({position: 'bottomright'});
+            command.onAdd = (map) => {
+                let div = L.DomUtil.create('div', 'command');
+                div.innerHTML += '<div><img height="300" src="' + this.$store.state.listPhotos[this.$store.state.i].url + '"/></div>';
+                return div;
+            };
+            command.addTo(this.map);
         }
       
     },
@@ -74,6 +88,8 @@ export default {
          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(this.map);
 
+        //this.createControls();
+              
         this.map.on('click', (e) => {
              this.addMarker(e);
         });
@@ -84,7 +100,8 @@ export default {
 
 <style scoped>
     #map {
-        height: 300px;        
+        height: 100vh;
+        width: 100%;        
     }
 
     .leaflet-container {

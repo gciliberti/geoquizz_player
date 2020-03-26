@@ -17,7 +17,6 @@ methods: {
 
     getSeries(){
         axios.get('index.php/series').then((response) => {
-            console.log(response.data);
             //this.$store.commit('getSeries', response.data)
         })
     },

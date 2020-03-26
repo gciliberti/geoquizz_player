@@ -12,11 +12,13 @@
         </div>
 
         <div class="infos">
-          <p>score : {{this.$store.state.score}}</p>
-          <p id="timer" class="">temps : {{this.timer}}</p>
+          <p><strong>score :</strong> {{this.$store.state.score}}</p>
+          <p v-if="this.timer <= 20" id="timer" class=""><strong>temps :</strong> {{this.timer}}</p>
+          <p v-else id="timer">temps écoulé<p/>
+          <p>{{this.$store.state.listPhotos[this.$store.state.i].desc}}</p>
         </div>
 
-        <Donut :timer="timer"></Donut>
+        <Donut ref="diag" :timer="timer"></Donut>
 
 
         <button v-on:click="next" class="btn btn-primary">suivant</button> 
@@ -25,7 +27,7 @@
     </div>
 
     <div class="image">
-      <img height="200" :src="this.$store.state.listPhotos[this.$store.state.i].url"/>
+      <img id="img" height="200" :src="this.$store.state.listPhotos[this.$store.state.i].url"/>
     </div>
 
     <!--
@@ -66,10 +68,14 @@ export default {
 
         //quand suivant, reset map et coordonnées
         this.$refs.mapComponent.resetMarker();
+
+        this.$refs.diag.reset();
+
         //this.$refs.mapComponent.createControls();
         let coord = [0, 0];
         this.$store.commit('pointed', coord);
         this.$store.commit('incr');
+        this.load();
 
         if(this.$store.state.i == this.$store.state.nbPhotos){
           this.stop = true;
@@ -89,10 +95,9 @@ export default {
     },
 
     resetTimer(){
-       $( "#timer" ).removeClass("red");
+      $( "#timer" ).removeClass("red");
       this.timer = 0;
       this.break = false;
-      this.runTimer();
     },
 
     incr(){
@@ -103,6 +108,14 @@ export default {
       this.runTimer();
     },
 
+//run timer quand image chargé
+    load(){
+      $("#img").one("load", () => {
+        this.runTimer();
+      })    
+    },
+
+
     convertRad(angle){
         return (Math.PI * angle)/180;
     }
@@ -111,6 +124,7 @@ export default {
   mounted(){
     document.documentElement.style.overflow = 'hidden'
     this.runTimer();
+    this.load();
   }
 }
 </script>
@@ -138,6 +152,7 @@ export default {
 
   .red{
     color: red;
+
   }
 
   img{

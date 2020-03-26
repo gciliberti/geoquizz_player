@@ -15,7 +15,7 @@ export default new Vuex.Store({
     i: 0,
     nb: 1,
     score: 0,
-    distanceMaxPoint: 1000, 
+    distanceMaxPoint: 0, 
     listPhotos: [],
     nbPhotos: 0,
     LatLngPoint: {},
@@ -39,7 +39,6 @@ export default new Vuex.Store({
     },
 
     initGame(state, data){
-      console.log(data);
       state.nbPhotos = data.nb_photos;
       state.token = data.token;
       state.partieId = data.id;
@@ -47,6 +46,7 @@ export default new Vuex.Store({
         state.listPhotos.push(element)
       );
       state.map = data.map[0];
+      state.distanceMaxPoint = data.serie.dist
     },
 
     resetGame(state){

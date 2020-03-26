@@ -4,8 +4,7 @@
             background="white" foreground="lightgrey"
             :size="100" unit="px" :thickness="30"
             :sections="sections" :total="100"
-            :start-angle="0" :auto-adjust-text-size="true"
-            @section-click="timeToSection">
+            :start-angle="0" :auto-adjust-text-size="true">
             <h1>x{{this.multiplier}}</h1>
         </vc-donut>
     </div>
@@ -39,10 +38,8 @@ export default {
         },
 
     methods:{
-        timeToSection(){
-            this.multiplier = this.getMultiplier(this.timer);
-            this.sections[0].value = this.timer * 5;
-            console.log(this);
+        reset(){
+           this.sections[0].value = 0;
         },
 
         getMultiplier(time){

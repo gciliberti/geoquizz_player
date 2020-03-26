@@ -71,15 +71,11 @@ export default {
     },
 
     forceRerender() {
-        // Remove my-component from the DOM
         this.renderComponent = false;
-        console.log("force")
         this.$nextTick().then(() => {
-                  console.log("tick")
-    // Add the component back in
-    this.renderComponent = true;
-  });
-      }
+        this.renderComponent = true;
+      });
+    }
   },
 
   mounted(){

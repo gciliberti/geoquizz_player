@@ -24,7 +24,6 @@ export default {
       axios.patch('partie/' + this.$store.state.token, 
       {id: this.$store.state.partieId ,score: this.$store.state.score})
       .then((response) => {
-        console.log(response)
       })
       this.$router.push('/');
       this.$store.commit('resetGame');

@@ -15,7 +15,7 @@
           <p><strong>score :</strong> {{this.$store.state.score}}</p>
           <p v-if="this.timer <= 20" id="timer" class=""><strong>temps :</strong> {{this.timer}}</p>
           <p v-else id="timer">temps écoulé<p/>
-          <p>{{this.$store.state.listPhotos[this.$store.state.i].desc}}</p>
+          <!--<p>{{this.$store.state.listPhotos[this.$store.state.i].desc}}</p>-->
         </div>
 
         <Donut ref="diag" :timer="timer"></Donut>
@@ -27,7 +27,7 @@
     </div>
 
     <div class="image">
-      <img id="img" height="200" :src="this.$store.state.listPhotos[this.$store.state.i].url"/>
+      <img id="img" height="200" @load="loaded" :src="this.$store.state.listPhotos[this.$store.state.i].url" />
     </div>
 
     <!--
@@ -75,7 +75,6 @@ export default {
         let coord = [0, 0];
         this.$store.commit('pointed', coord);
         this.$store.commit('incr');
-        this.load();
 
         if(this.$store.state.i == this.$store.state.nbPhotos){
           this.stop = true;
@@ -90,6 +89,7 @@ export default {
       } else if (this.stop === true){
         return;
       } else {
+        console.log("time")
       setTimeout(function () { this.incr() }.bind(this), 1000);
       }
     },
@@ -109,12 +109,10 @@ export default {
     },
 
 //run timer quand image chargé
-    load(){
-      $("#img").one("load", () => {
-        this.runTimer();
-      })    
-    },
 
+    loaded(){
+      this.runTimer();
+    },
 
     convertRad(angle){
         return (Math.PI * angle)/180;
@@ -123,8 +121,6 @@ export default {
 
   mounted(){
     document.documentElement.style.overflow = 'hidden'
-    this.runTimer();
-    this.load();
   }
 }
 </script>

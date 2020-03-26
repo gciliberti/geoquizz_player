@@ -5,7 +5,6 @@
         <div>
             <div class="informations hid card card-body">
                 <p>• Le jeu sauvegarde automatiquement quand vous fermez la fenêtre où se joue une partie</p>
-                <p>• Il faut cliquer sur le boutton de la modale et non en dehors</p>
                 <p>• Aucun point n'est marqué après 20 secondes</p>
             </div>
         </div>

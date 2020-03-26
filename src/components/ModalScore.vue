@@ -1,5 +1,5 @@
 <template>
-    <div class="modal fade" id="modalScore" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade" id="modalScore" data-keyboard="false" data-backdrop="static"  tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
         <div class="modal-header d-flex flex-column align-items-center">

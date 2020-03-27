@@ -17,7 +17,7 @@ export default {
 
     data() {
         return {
-            sections: [{ value: 0, color: 'orange' }],
+            sections: [{ value: 100, color: 'orange' }],
             multiplier: 4
         };
     },
@@ -31,7 +31,7 @@ export default {
         watch: {
             check: function () {
                 this.multiplier = this.getMultiplier(this.timer);
-                if(this.sections[0].value < 100){
+                if(this.sections[0].value > 0){
                     this.sections[0].value = this.timer * 5;
                 }
             }
@@ -39,15 +39,15 @@ export default {
 
     methods:{
         reset(){
-           this.sections[0].value = 0;
+           this.sections[0].value = 100;
         },
 
         getMultiplier(time){
-            if(time <= 5){
+            if(time >= 15){
                 return 4;
-            } else if (time <= 10){
+            } else if (time >= 10){
                 return 2;
-            } else if (time <= 20){
+            } else if (time >= 0){
                 return 1;
             } else {
                 return 0;

@@ -15,7 +15,7 @@
           <p><strong>score :</strong> {{this.$store.state.score}}</p>
           <p v-if="this.timer <= 20" id="timer" class=""><strong>temps :</strong> {{this.timer}}</p>
           <p v-else id="timer">temps écoulé<p/>
-          <!--<p>{{this.$store.state.listPhotos[this.$store.state.i].desc}}</p>-->
+          <p>{{this.$store.state.listPhotos[this.$store.state.i].desc}}</p>
         </div>
 
         <Donut ref="diag" :timer="timer"></Donut>
@@ -52,7 +52,7 @@ export default {
     return {
       i: 0,
       nb: 1,
-      timer: 0,
+      timer: 20,
       break: false,
       stop: false
     };
@@ -61,9 +61,15 @@ export default {
   methods:{
     next(){
       let pin = this.$store.state.LatLngPoint;
-      if(pin[0] != 0 && pin[1] != 0){
+      console.log(this.$store.state.LatLngPoint);
+      if(pin[0] && pin[1]){
          //traitement score
+         console.log("score")
         this.$refs.mapComponent.calculateScore(this.$store.state.i, this.timer);
+      } else {
+        this.$store.commit('incrementScore', 0);
+      }
+       
         this.break = true;
 
         //quand suivant, reset map et coordonnées
@@ -72,15 +78,14 @@ export default {
         this.$refs.diag.reset();
 
         //this.$refs.mapComponent.createControls();
-        let coord = [0, 0];
-        this.$store.commit('pointed', coord);
+        this.$store.commit('resetPointed');
         this.$store.commit('incr');
 
         if(this.$store.state.i == this.$store.state.nbPhotos){
           this.stop = true;
           $( "#modalScore" ).modal();
         }
-      }
+      //}
     },
 
     runTimer(){
@@ -96,13 +101,15 @@ export default {
 
     resetTimer(){
       $( "#timer" ).removeClass("red");
-      this.timer = 0;
+      this.timer = 20;
       this.break = false;
     },
 
     incr(){
-      this.timer += 1;
-      if(this.timer > 20){
+      this.timer -= 1;
+      if(this.timer <= 0){
+        this.next();       
+      } else if (this.timer == 5){
         $( "#timer" ).addClass("red");
       }
       this.runTimer();

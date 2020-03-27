@@ -30,6 +30,10 @@ export default new Vuex.Store({
       state.LatLngPoint = coord;
     },
 
+    resetPointed(state){
+      state.LatLngPoint = {};
+    },
+
     getSeries(state, data){
       state.series = data;
     },

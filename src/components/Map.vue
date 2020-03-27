@@ -58,11 +58,11 @@ export default {
         },
 
         getMultiplier(time){
-            if(time <= 5){
+            if(time >= 15){
                 return 4;
-            } else if (time <= 10){
+            } else if (time >= 10){
                 return 2;
-            } else if (time <= 20){
+            } else if (time >= 20){
                 return 1;
             } else {
                 return 0;

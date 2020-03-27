@@ -14,14 +14,13 @@
         <div class="infos">
           <p><strong>score :</strong> {{this.$store.state.score}}</p>
           <p v-if="this.timer <= 20" id="timer" class=""><strong>temps :</strong> {{this.timer}}</p>
-          <p v-else id="timer">temps écoulé<p/>
           <p>{{this.$store.state.listPhotos[this.$store.state.i].desc}}</p>
         </div>
 
         <Donut ref="diag" :timer="timer"></Donut>
 
 
-        <button v-on:click="next" class="btn btn-primary">suivant</button> 
+        <button id="nextButton" v-on:click="next" disabled="true" class="btn btn-primary">suivant</button> 
 
       </div>
     </div>
@@ -61,10 +60,8 @@ export default {
   methods:{
     next(){
       let pin = this.$store.state.LatLngPoint;
-      console.log(this.$store.state.LatLngPoint);
       if(pin[0] && pin[1]){
          //traitement score
-         console.log("score")
         this.$refs.mapComponent.calculateScore(this.$store.state.i, this.timer);
       } else {
         this.$store.commit('incrementScore', 0);
@@ -74,7 +71,6 @@ export default {
 
         //quand suivant, reset map et coordonnées
         this.$refs.mapComponent.resetMarker();
-
         this.$refs.diag.reset();
 
         //this.$refs.mapComponent.createControls();
@@ -94,7 +90,6 @@ export default {
       } else if (this.stop === true){
         return;
       } else {
-        console.log("time")
       setTimeout(function () { this.incr() }.bind(this), 1000);
       }
     },
@@ -125,6 +120,22 @@ export default {
         return (Math.PI * angle)/180;
     }
   },
+
+   computed: {
+            check() {
+                return this.$store.state.LatLngPoint;
+            }
+        },
+
+        watch: {
+          check: function () {
+            if(this.$store.state.LatLngPoint[0]){
+              $( "#nextButton" ).prop('disabled', false);
+            } else {
+              $( "#nextButton" ).prop('disabled', true);
+            }
+          }
+        },
 
   mounted(){
     document.documentElement.style.overflow = 'hidden'
